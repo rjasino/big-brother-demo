@@ -32,3 +32,5 @@ Output a summary with:
 - Tests written (file paths and what they cover)
 - Any deviations from the spec (if none, say so explicitly)
 - Signal: `Ready for manual acceptance testing.`
+
+Do NOT commit any code yet.
