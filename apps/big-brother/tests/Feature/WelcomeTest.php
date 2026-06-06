@@ -2,27 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature;
+test('welcome route returns inertia welcome component', function () {
+    $response = $this->get('/');
 
-use Tests\TestCase;
+    $response->assertStatus(200);
+    $response->assertInertia(
+        fn ($page) => $page->component('Welcome')
+    );
+});
 
-final class WelcomeTest extends TestCase
-{
-    public function test_welcome_route_returns_inertia_welcome_component(): void
-    {
-        $response = $this->get('/');
+test('welcome route renders app name in html shell', function () {
+    $response = $this->get('/');
 
-        $response->assertStatus(200);
-        $response->assertInertia(
-            fn ($page) => $page->component('Welcome')
-        );
-    }
-
-    public function test_welcome_route_renders_app_name_in_html_shell(): void
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-        $response->assertSee('Big Brother SMS');
-    }
-}
+    $response->assertStatus(200);
+    $response->assertSee('Big Brother SMS');
+});
