@@ -1,0 +1,602 @@
+{
+  "schemaVersion": "1.0.0",
+  "system": "Big Brother School Management System",
+  "sourceReferences": {
+    "prd": "docs/prd.md",
+    "sdd": "docs/sdd.md",
+    "diagram": "docs/process_diagram.jpg"
+  },
+  "database": {
+    "engine": "PostgreSQL",
+    "version": "16",
+    "namingConvention": "snake_case",
+    "timestampColumns": ["created_at", "updated_at"]
+  },
+  "tables": [
+    {
+      "name": "faculty",
+      "description": "Stores faculty members who can be assigned to teach courses.",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "autoIncrement": true,
+          "nullable": false
+        },
+        {
+          "name": "employee_no",
+          "type": "varchar(30)",
+          "nullable": false,
+          "unique": true
+        },
+        {
+          "name": "first_name",
+          "type": "varchar(100)",
+          "nullable": false
+        },
+        {
+          "name": "middle_name",
+          "type": "varchar(100)",
+          "nullable": true
+        },
+        {
+          "name": "last_name",
+          "type": "varchar(100)",
+          "nullable": false
+        },
+        {
+          "name": "email",
+          "type": "varchar(150)",
+          "nullable": true,
+          "unique": true
+        },
+        {
+          "name": "department",
+          "type": "varchar(150)",
+          "nullable": true
+        },
+        {
+          "name": "status",
+          "type": "varchar(20)",
+          "nullable": false,
+          "default": "active",
+          "allowedValues": ["active", "inactive"]
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": false
+        }
+      ],
+      "indexes": ["employee_no", "email", "status"]
+    },
+    {
+      "name": "programs",
+      "description": "Stores academic programs offered by the institution.",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "autoIncrement": true,
+          "nullable": false
+        },
+        {
+          "name": "code",
+          "type": "varchar(20)",
+          "nullable": false,
+          "unique": true
+        },
+        {
+          "name": "name",
+          "type": "varchar(150)",
+          "nullable": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "status",
+          "type": "varchar(20)",
+          "nullable": false,
+          "default": "active",
+          "allowedValues": ["active", "inactive"]
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": false
+        }
+      ],
+      "indexes": ["code", "status"]
+    },
+    {
+      "name": "courses",
+      "description": "Stores courses used in curriculum mapping, enrollment, attendance, and faculty assignment.",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "autoIncrement": true,
+          "nullable": false
+        },
+        {
+          "name": "code",
+          "type": "varchar(30)",
+          "nullable": false,
+          "unique": true
+        },
+        {
+          "name": "title",
+          "type": "varchar(200)",
+          "nullable": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "units",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "varchar(20)",
+          "nullable": false,
+          "default": "active",
+          "allowedValues": ["active", "inactive"]
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": false
+        }
+      ],
+      "indexes": ["code", "status"]
+    },
+    {
+      "name": "students",
+      "description": "Stores student records and links each student to one academic program.",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "autoIncrement": true,
+          "nullable": false
+        },
+        {
+          "name": "student_no",
+          "type": "varchar(30)",
+          "nullable": false,
+          "unique": true
+        },
+        {
+          "name": "program_id",
+          "type": "bigint",
+          "nullable": false,
+          "references": {
+            "table": "programs",
+            "column": "id",
+            "onDelete": "restrict",
+            "onUpdate": "cascade"
+          }
+        },
+        {
+          "name": "first_name",
+          "type": "varchar(100)",
+          "nullable": false
+        },
+        {
+          "name": "middle_name",
+          "type": "varchar(100)",
+          "nullable": true
+        },
+        {
+          "name": "last_name",
+          "type": "varchar(100)",
+          "nullable": false
+        },
+        {
+          "name": "email",
+          "type": "varchar(150)",
+          "nullable": true,
+          "unique": true
+        },
+        {
+          "name": "year_level",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "varchar(20)",
+          "nullable": false,
+          "default": "active",
+          "allowedValues": ["active", "inactive", "graduated", "dropped"]
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": false
+        }
+      ],
+      "indexes": ["student_no", "program_id", "status"]
+    },
+    {
+      "name": "load_assignments",
+      "description": "Stores teaching load assignments that connect faculty members to courses for a given academic period.",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "autoIncrement": true,
+          "nullable": false
+        },
+        {
+          "name": "faculty_id",
+          "type": "bigint",
+          "nullable": false,
+          "references": {
+            "table": "faculty",
+            "column": "id",
+            "onDelete": "restrict",
+            "onUpdate": "cascade"
+          }
+        },
+        {
+          "name": "course_id",
+          "type": "bigint",
+          "nullable": false,
+          "references": {
+            "table": "courses",
+            "column": "id",
+            "onDelete": "restrict",
+            "onUpdate": "cascade"
+          }
+        },
+        {
+          "name": "academic_year",
+          "type": "varchar(20)",
+          "nullable": false
+        },
+        {
+          "name": "term",
+          "type": "varchar(20)",
+          "nullable": false
+        },
+        {
+          "name": "section",
+          "type": "varchar(20)",
+          "nullable": true
+        },
+        {
+          "name": "status",
+          "type": "varchar(20)",
+          "nullable": false,
+          "default": "assigned",
+          "allowedValues": ["assigned", "completed", "cancelled"]
+        },
+        {
+          "name": "assigned_at",
+          "type": "timestamp",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": false
+        }
+      ],
+      "uniqueConstraints": [
+        ["faculty_id", "course_id", "academic_year", "term", "section"]
+      ],
+      "indexes": ["faculty_id", "course_id", "academic_year", "term", "status"]
+    },
+    {
+      "name": "program_courses",
+      "description": "Stores the curriculum mapping between programs and courses.",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "autoIncrement": true,
+          "nullable": false
+        },
+        {
+          "name": "program_id",
+          "type": "bigint",
+          "nullable": false,
+          "references": {
+            "table": "programs",
+            "column": "id",
+            "onDelete": "cascade",
+            "onUpdate": "cascade"
+          }
+        },
+        {
+          "name": "course_id",
+          "type": "bigint",
+          "nullable": false,
+          "references": {
+            "table": "courses",
+            "column": "id",
+            "onDelete": "cascade",
+            "onUpdate": "cascade"
+          }
+        },
+        {
+          "name": "year_level",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "term",
+          "type": "varchar(20)",
+          "nullable": true
+        },
+        {
+          "name": "is_required",
+          "type": "boolean",
+          "nullable": false,
+          "default": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": false
+        }
+      ],
+      "uniqueConstraints": [["program_id", "course_id"]],
+      "indexes": ["program_id", "course_id", "year_level", "term"]
+    },
+    {
+      "name": "student_courses",
+      "description": "Stores course enrollments for students.",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "autoIncrement": true,
+          "nullable": false
+        },
+        {
+          "name": "student_id",
+          "type": "bigint",
+          "nullable": false,
+          "references": {
+            "table": "students",
+            "column": "id",
+            "onDelete": "cascade",
+            "onUpdate": "cascade"
+          }
+        },
+        {
+          "name": "course_id",
+          "type": "bigint",
+          "nullable": false,
+          "references": {
+            "table": "courses",
+            "column": "id",
+            "onDelete": "restrict",
+            "onUpdate": "cascade"
+          }
+        },
+        {
+          "name": "academic_year",
+          "type": "varchar(20)",
+          "nullable": false
+        },
+        {
+          "name": "term",
+          "type": "varchar(20)",
+          "nullable": false
+        },
+        {
+          "name": "enrollment_status",
+          "type": "varchar(20)",
+          "nullable": false,
+          "default": "enrolled",
+          "allowedValues": ["enrolled", "dropped", "completed"]
+        },
+        {
+          "name": "enrolled_at",
+          "type": "timestamp",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": false
+        }
+      ],
+      "uniqueConstraints": [
+        ["student_id", "course_id", "academic_year", "term"]
+      ],
+      "indexes": [
+        "student_id",
+        "course_id",
+        "academic_year",
+        "term",
+        "enrollment_status"
+      ]
+    },
+    {
+      "name": "attendance",
+      "description": "Stores attendance records per student and course session.",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "autoIncrement": true,
+          "nullable": false
+        },
+        {
+          "name": "student_id",
+          "type": "bigint",
+          "nullable": false,
+          "references": {
+            "table": "students",
+            "column": "id",
+            "onDelete": "cascade",
+            "onUpdate": "cascade"
+          }
+        },
+        {
+          "name": "course_id",
+          "type": "bigint",
+          "nullable": false,
+          "references": {
+            "table": "courses",
+            "column": "id",
+            "onDelete": "restrict",
+            "onUpdate": "cascade"
+          }
+        },
+        {
+          "name": "attendance_date",
+          "type": "date",
+          "nullable": false
+        },
+        {
+          "name": "attendance_status",
+          "type": "varchar(20)",
+          "nullable": false,
+          "allowedValues": ["present", "late", "absent", "excused"]
+        },
+        {
+          "name": "remarks",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": false
+        }
+      ],
+      "uniqueConstraints": [["student_id", "course_id", "attendance_date"]],
+      "indexes": [
+        "student_id",
+        "course_id",
+        "attendance_date",
+        "attendance_status"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from": "faculty",
+      "to": "load_assignments",
+      "type": "one-to-many",
+      "via": "load_assignments.faculty_id"
+    },
+    {
+      "from": "courses",
+      "to": "load_assignments",
+      "type": "one-to-many",
+      "via": "load_assignments.course_id"
+    },
+    {
+      "from": "programs",
+      "to": "students",
+      "type": "one-to-many",
+      "via": "students.program_id"
+    },
+    {
+      "from": "programs",
+      "to": "program_courses",
+      "type": "one-to-many",
+      "via": "program_courses.program_id"
+    },
+    {
+      "from": "courses",
+      "to": "program_courses",
+      "type": "one-to-many",
+      "via": "program_courses.course_id"
+    },
+    {
+      "from": "students",
+      "to": "student_courses",
+      "type": "one-to-many",
+      "via": "student_courses.student_id"
+    },
+    {
+      "from": "courses",
+      "to": "student_courses",
+      "type": "one-to-many",
+      "via": "student_courses.course_id"
+    },
+    {
+      "from": "students",
+      "to": "attendance",
+      "type": "one-to-many",
+      "via": "attendance.student_id"
+    },
+    {
+      "from": "courses",
+      "to": "attendance",
+      "type": "one-to-many",
+      "via": "attendance.course_id"
+    }
+  ],
+  "businessRules": [
+    "A student must belong to one program.",
+    "A course can belong to multiple programs through program_courses.",
+    "A student can enroll in multiple courses through student_courses.",
+    "A faculty member can handle multiple course loads through load_assignments.",
+    "Attendance can only be recorded for a valid student and course pair.",
+    "Duplicate enrollment records for the same student, course, academic year, and term are not allowed.",
+    "Duplicate attendance records for the same student, course, and attendance date are not allowed."
+  ]
+}
