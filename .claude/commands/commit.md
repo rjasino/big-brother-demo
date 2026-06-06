@@ -5,6 +5,8 @@ description: Stage changes and write a clean conventional-commit message
 
 Prepare and execute a git commit. Work through these steps in order.
 
+**Trigger:** Execute this command after manual acceptance testing.
+
 ## Step 1 — Inspect working tree
 
 Run `git status` and `git diff` (both staged and unstaged) to understand what has changed. Do not assume — read the actual diff.

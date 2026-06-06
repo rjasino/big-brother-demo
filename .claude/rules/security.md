@@ -7,6 +7,7 @@ These rules apply to all agents across frontend and backend.
 - Never log passwords, tokens, or PII.
 - Store all secrets in `.env` — never hardcode them.
 - Never commit `.env` files — use `.env.example` for reference.
+- Never read `.env` values directly; use `.env.example` as a reference and inject values via config files or environment variables.
 
 ## Backend Security
 
