@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->string('name', 150);
+            $table->string('email', 150)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('role', 20); // 'faculty' | 'registrar'
+            $table->unsignedBigInteger('faculty_id')->nullable()->index(); // FK to faculty.id; constraint added when faculty migration exists
             $table->rememberToken();
             $table->timestamps();
         });

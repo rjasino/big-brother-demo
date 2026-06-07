@@ -14,6 +14,68 @@
   },
   "tables": [
     {
+      "name": "users",
+      "description": "Auth accounts for Faculty and Registrar actors. Fortify-managed table (login, registration, password reset). Email verification and 2FA are disabled.",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "autoIncrement": true,
+          "nullable": false
+        },
+        {
+          "name": "name",
+          "type": "varchar(150)",
+          "nullable": false
+        },
+        {
+          "name": "email",
+          "type": "varchar(150)",
+          "nullable": false,
+          "unique": true
+        },
+        {
+          "name": "password",
+          "type": "varchar(255)",
+          "nullable": false
+        },
+        {
+          "name": "role",
+          "type": "varchar(20)",
+          "nullable": false,
+          "allowedValues": ["faculty", "registrar"]
+        },
+        {
+          "name": "faculty_id",
+          "type": "bigint",
+          "nullable": true,
+          "references": {
+            "table": "faculty",
+            "column": "id",
+            "onDelete": "set null",
+            "onUpdate": "cascade"
+          }
+        },
+        {
+          "name": "remember_token",
+          "type": "varchar(100)",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "nullable": false
+        }
+      ],
+      "indexes": ["email", "role", "faculty_id"]
+    },
+    {
       "name": "faculty",
       "description": "Stores faculty members who can be assigned to teach courses.",
       "columns": [
@@ -536,6 +598,13 @@
   ],
   "relationships": [
     {
+      "from": "users",
+      "to": "faculty",
+      "type": "many-to-one",
+      "via": "users.faculty_id",
+      "notes": "Nullable — only set when role = faculty. Registrar users have no linked faculty record."
+    },
+    {
       "from": "faculty",
       "to": "load_assignments",
       "type": "one-to-many",
@@ -591,6 +660,7 @@
     }
   ],
   "businessRules": [
+    "A user account must have role 'faculty' or 'registrar'. faculty_id must be set when role = faculty and must be null when role = registrar.",
     "A student must belong to one program.",
     "A course can belong to multiple programs through program_courses.",
     "A student can enroll in multiple courses through student_courses.",
