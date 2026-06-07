@@ -18,6 +18,7 @@ These rules apply to all agents across frontend and backend.
 
 ## Frontend Security
 
-- Do not store auth tokens or other sensitive data in `localStorage`; prefer secure session/cookie auth via Sanctum.
+- Do not store auth tokens or other sensitive data in `localStorage`; prefer secure session/cookie auth via Fortify.
+- Use Laravel Fortify for robust authentication scaffolding: multi-factor authentication, session management, and secure cookie-based authentication.
 - Handle 401 responses globally — redirect to login.
 - Sanitize any user-generated content before rendering.
