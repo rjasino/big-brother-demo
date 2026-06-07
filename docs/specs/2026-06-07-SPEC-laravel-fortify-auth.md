@@ -223,7 +223,7 @@ Fortify view routes are registered via `Fortify::loginView()`, `Fortify::registe
 - Two-factor authentication — disabled in Fortify config
 - Public self-registration — disabled; account creation is registrar-only
 - Profile update / password change from within the app
-- Role-based route protection middleware (separate task; this task only scaffolds auth)
+- Additional role-based route protection beyond the registrar-only guard (future task)
 - Linking `users.faculty_id` to an existing faculty record at registration
 - Student authentication (students are not system users in this demo)
 - API token authentication (Sanctum token guard)
