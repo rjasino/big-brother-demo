@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Actions\Fortify;
+declare(strict_types=1);
 
+namespace App\Actions\Fortify;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
