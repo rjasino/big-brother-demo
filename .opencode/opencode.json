@@ -1,0 +1,10 @@
+{
+  "model": "github-copilot/gpt-5.4",
+  "instructions": [
+    ".opencode/rules/coding.md",
+    ".opencode/rules/security.md",
+    ".opencode/rules/testing.md",
+    ".opencode/rules/dev-command.md",
+    ".opencode/rules/structure.md"
+  ]
+}

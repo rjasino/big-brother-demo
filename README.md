@@ -1,3 +1,15 @@
-## README
+## READ BEFORE WE START
 
-This repository is a container for one or more executable projects under `apps/`. Each project is self-contained — it manages its own dependencies (`composer.json`, `package.json`) and is developed and run from inside its own directory. There is no shared `node_modules`, `vendor`, or workspace root at the repository level.
+- This workflow is for software engineering of any tech stack.
+- The typical setup is (backend) (frontend)
+- Other layer might be (inference) (worker) (frontend - fullstack)
+- This will hold the base workflow scaffold then fork a new one when starting a new
+- This will follow OpenCode standard soon will adapt Github Copilot, Codex and Claude Code
+
+- Tech stack
+  - Laravel 13 (backend)
+  - Laravel Sanctum (authentication)
+  - PHP 8.4+
+  - React + Vite (frontend)
+  - Postgres (database)
+  - Docker (containerization)
