@@ -3,6 +3,13 @@ description: Begin implementation after spec is approved
 agent: agent-x44-mentor
 ---
 
+Before doing anything else, apply this agent guard:
+
+- If the current agent is `agent-x44-mentor`, continue normally.
+- If the current agent is not `agent-x44-mentor`, first decide whether the request would change the codebase, workflow files, or repository behavior.
+- If the request is codebase-changing, do not branch, edit files, or run implementation steps. Reply: `This repository requires implementation-oriented work to be requested through Agent-X44-Mentor. Please rerun this command using Agent-X44-Mentor.` You may add brief guidance, but do not progress the workflow.
+- If the request is a pure question, read-only exploration, or a one-line doc/comment typo fix, you may help without redirecting, but do not run `/implement` unless the current agent is `agent-x44-mentor`.
+
 Implement the approved spec only after the user has approved it.
 
 Before making changes, confirm the worktree is safe to use. If unrelated local changes make branching, testing, or later staging ambiguous, stop and ask the user which files belong to this task.
@@ -11,6 +18,7 @@ Implement in this order:
 
 1. **Update `main`, then create the working branch.** Pull the latest remote `main` branch first, then cut a fresh branch from that updated `main` for the current task before making implementation changes. Name it `<author_name>/<task_word>`.
    - Refresh local `main` from the remote before branching so the task starts from the current upstream tip
+   - If there are modified or untracked files, stash it first before cutting a branch. Pop the stash later after branching out.
    - Read `author_name` from `git config user.name`
    - Normalize it for branch names (lowercase; replace spaces and other unsafe characters with `-`)
    - Derive `task_word` from the approved task/spec as one concise lowercase word

@@ -3,6 +3,13 @@ description: Generate a spec document from clarified requirements
 agent: agent-x44-mentor
 ---
 
+Before doing anything else, apply this agent guard:
+
+- If the current agent is `agent-x44-mentor`, continue normally.
+- If the current agent is not `agent-x44-mentor`, first decide whether the request would change the codebase, workflow files, or repository behavior.
+- If the request is codebase-changing, do not create or update a spec. Reply: `This repository requires implementation-oriented work to be requested through Agent-X44-Mentor. Please rerun this command using Agent-X44-Mentor.` You may add brief guidance, but do not progress the workflow.
+- If the request is a pure question, read-only exploration, or a one-line doc/comment typo fix, you may help without redirecting, but do not create a spec unless the current agent is `agent-x44-mentor`.
+
 Based on the clarified task, create a spec document and save it to `docs/specs/<YYYY-MM-DD>-SPEC-<task-slug>.md`.
 
 Do not proceed if the task has not been clarified yet. If requirements are still ambiguous in a way that changes scope or behavior, stay in `/task` and say what is still missing.

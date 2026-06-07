@@ -3,6 +3,13 @@ description: Stage changes and write a clean conventional-commit message
 agent: agent-x44-mentor
 ---
 
+Before doing anything else, apply this agent guard:
+
+- If the current agent is `agent-x44-mentor`, continue normally.
+- If the current agent is not `agent-x44-mentor`, first decide whether the request would change the codebase, workflow files, or repository behavior.
+- If the request is codebase-changing, do not stage files or create a commit. Reply: `This repository requires implementation-oriented work to be requested through Agent-X44-Mentor. Please rerun this command using Agent-X44-Mentor.` You may add brief guidance, but do not progress the workflow.
+- If the request is a pure question, read-only exploration, or a one-line doc/comment typo fix, you may help without redirecting, but do not run `/commit` unless the current agent is `agent-x44-mentor`.
+
 Prepare and execute a git commit. Work through these steps in order.
 
 **Trigger:** Execute this command only after manual acceptance testing or explicit user confirmation that implementation is approved.
