@@ -21,7 +21,7 @@ test('reset link is sent for a valid email', function () {
     Notification::assertSentTo($user, ResetPassword::class);
 });
 
-test('no error is exposed for unknown email', function () {
+test('validation error is returned for unknown email', function () {
     Notification::fake();
 
     $this->post('/forgot-password', ['email' => 'nobody@example.com'])
