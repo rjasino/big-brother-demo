@@ -1,4 +1,4 @@
-import { usePage } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { PageProps } from '@/types/auth.types';
 
 export default function Dashboard() {
