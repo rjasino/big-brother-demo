@@ -12,19 +12,13 @@ export default function Dashboard() {
                     <h1 className="text-lg font-semibold text-gray-900">Big Brother SMS</h1>
                     <div className="flex items-center gap-4">
                         <span className="text-sm text-gray-600">{user.name}</span>
-                        <form method="POST" action="/logout">
-                            <input
-                                type="hidden"
-                                name="_token"
-                                value={document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content ?? ''}
-                            />
-                            <button
-                                type="submit"
-                                className="text-sm text-red-600 hover:text-red-500"
-                            >
-                                Sign out
-                            </button>
-                        </form>
+                        <button
+                            type="button"
+                            onClick={() => router.post('/logout')}
+                            className="text-sm text-red-600 hover:text-red-500"
+                        >
+                            Sign out
+                        </button>
                     </div>
                 </div>
             </header>
