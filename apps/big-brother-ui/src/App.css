@@ -1,0 +1,56 @@
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-shell__header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #d7deea;
+  background-color: #0f172a;
+  color: #f8fafc;
+}
+
+.app-shell__title {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+.app-shell__subtitle {
+  margin: 0.5rem 0 0;
+  color: #cbd5e1;
+}
+
+.app-shell__content {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.home-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.home-page__panel {
+  padding: 1.5rem;
+  border: 1px solid #d7deea;
+  border-radius: 0.75rem;
+  background-color: #ffffff;
+}
+
+.home-page__heading {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.home-page__list {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.home-page__list-item + .home-page__list-item {
+  margin-top: 0.5rem;
+}

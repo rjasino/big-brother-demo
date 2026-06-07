@@ -1,0 +1,21 @@
+{
+  "name": "@big-brother/db",
+  "version": "0.1.0",
+  "description": "Shared database-facing contracts for the Big Brother School Management System.",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "scripts": {
+    "build": "node --input-type=module -e \"import('./src/index.js').then(() => { console.log('Shared package export is ready.') })\"",
+    "test": "node --test"
+  },
+  "keywords": [
+    "monorepo",
+    "shared-contracts",
+    "database"
+  ],
+  "author": "",
+  "license": "MIT"
+}
