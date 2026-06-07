@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email', 150)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('role', 20); // 'faculty' | 'registrar'
+            $table->string('role', 20)->index(); // 'faculty' | 'registrar'
             $table->unsignedBigInteger('faculty_id')->nullable()->index(); // FK to faculty.id; constraint added when faculty migration exists
             $table->rememberToken();
             $table->timestamps();
